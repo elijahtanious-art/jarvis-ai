@@ -10,6 +10,13 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 class Message(BaseModel):
     message: str
 
+@app.get("/check_key")
+async def check_key():
+    if openai.api_key:
+        return {"status": "API key loaded ✅"}
+    else:
+        return {"status": "API key NOT found ❌"}
+
 @app.post("/chat")
 async def chat(msg: Message):
     response = openai.ChatCompletion.create(
